@@ -53,7 +53,7 @@ This project is based on Udacity Data Analyst Nano Degree program.
               df['poi_val'] = (df['poi']).astype(int)
     
     Using SelectKBest below are scores for each of the features
-        ![SelectKBest](/images/selectkbest.png?raw=true "SelectKBest")
+![SelectKBest](https://raw.githubusercontent.com/gpraveencr/enron_emails_fraud_project/master/images/selectkbest.png)
 
     #Properly scale features
       #below listed features were scaled
