@@ -53,7 +53,8 @@ This project is based on Udacity Data Analyst Nano Degree program.
               df['poi_val'] = (df['poi']).astype(int)
     
     Using SelectKBest below are scores for each of the features
-        
+        ![SelectKBest](/images/selectkbest.png?raw=true "SelectKBest")
+
     #Properly scale features
       #below listed features were scaled
         cols_to_norm = ['bonus'                        ,
