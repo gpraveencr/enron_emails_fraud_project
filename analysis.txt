@@ -1,0 +1,140 @@
+
+Understanding the Dataset and Question:
+
+total number of data points - 146 rows × 21 columns
+allocation across classes (POI/non-POI)
+  POI - 18
+number of features - 20
+are there features with many missing values? etc.
+  Missing values per column:
+  bonus                         64
+  deferral_payments            107
+  deferred_income               97
+  director_fees                129
+  exercised_stock_options       44
+  expenses                      51
+  from_messages                 60
+  from_poi_to_this_person       60
+  from_this_person_to_poi       60
+  loan_advances                142
+  long_term_incentive           80
+  other                         53
+  poi                            0
+  restricted_stock              36
+  restricted_stock_deferred    128
+  salary                        51
+  shared_receipt_with_poi       60
+  to_messages                   60
+  total_payments                21
+  total_stock_value             20
+Outlier Investigation (Below listed values are outside 4 standard deviation)
+  salary outliers:  1
+  bonus outliers:  3
+  total_payments outliers:  2
+  deferral_payments outliers:  3
+  deferred_income outliers:  3
+  director_fees outliers:  0
+  exercised_stock_options outliers:  2
+  expenses outliers:  2
+  from_messages outliers:  2
+  from_poi_to_this_person outliers:  1
+  from_this_person_to_poi outliers:  2
+  long_term_incentive outliers:  1
+  shared_receipt_with_poi outliers:  1
+  to_messages outliers:  2
+  total_stock_value outliers:  1
+
+  Optimize Feature Selection/Engineering:
+    Create new features:
+      Created a new feature called 'poi_val'. This new column will have 'int' value of 'poi'
+        df['poi_val'] = (df['poi']).astype(int)
+    Intelligently select features:
+      Using SelectKBest below are scores for each of the features
+        bonus 2.36717867617
+        deferral_payments 0.478319644603
+        deferred_income 0.658736196015
+        director_fees 0.59833281349
+        exercised_stock_options 0.0323591820114
+        expenses 2.43931147411
+        from_messages 0.252704634824
+        from_poi_to_this_person 3.39516094505
+        from_this_person_to_poi 0.346716761718
+        loan_advances 0.123664545367
+        long_term_incentive 0.85598588899
+        other 0.991326752941
+        poi inf
+        restricted_stock 2.63838497261
+        restricted_stock_deferred 0.338535975586
+        salary 2.77104565027
+        shared_receipt_with_poi 2.10384025652
+        to_messages 1.11932786572
+        total_payments 1.75926347674
+        total_stock_value 0.572911397787
+
+    Properly scale features
+      below listed features were scaled
+        cols_to_norm = ['bonus'                        ,
+                  'deferral_payments'            ,
+                  'deferred_income'              ,
+                  'director_fees'                ,
+                  'exercised_stock_options'      ,
+                  'expenses'                     ,
+                  'from_messages'                ,
+                  'from_poi_to_this_person'      ,
+                  'from_this_person_to_poi'      ,
+                  'loan_advances'                ,
+                  'long_term_incentive'          ,
+                  'other'                        ,
+                  'poi'                          ,
+                  'restricted_stock'             ,
+                  'restricted_stock_deferred'    ,
+                  'salary'                       ,
+                  'shared_receipt_with_poi'      ,
+                  'to_messages'                  ,
+                  'total_payments'               ,
+                  'total_stock_value']
+
+These are my results:
+
+GaussianNB Algorithm
+
+features_list = ['poi','from_poi_to_this_person', 'salary', 'bonus', 'expenses',
+				 'restricted_stock', 'shared_receipt_with_poi']
+Accuracy: 0.19986	Precision: 0.13192	Recall: 0.82450	F1: 0.22745	F2: 0.40220
+Total predictions: 14000	True positives: 1649	False positives: 10851	False negatives:  351	True negatives: 1149
+
+features_list = ['poi','from_poi_to_this_person', 'salary']
+Accuracy: 0.35945	Precision: 0.19705	Recall: 0.82050	F1: 0.31778	F2: 0.50251
+Total predictions: 11000	True positives: 1641	False positives: 6687	False negatives:  359	True negatives: 2313
+
+features_list = ['poi','from_poi_to_this_person', 'salary', 'restricted_stock']
+Accuracy: 0.23025	Precision: 0.15377	Recall: 0.80350	F1: 0.25813	F2: 0.43548
+Total predictions: 12000	True positives: 1607	False positives: 8844	False negatives:  393	True negatives: 1156
+
+features_list = ['poi','restricted_stock']
+Accuracy: 0.73800	Precision: 0.10127	Recall: 0.05600	F1: 0.07212	F2: 0.06150
+Total predictions: 11000	True positives:  112	False positives:  994	False negatives: 1888	True negatives: 8006
+
+features_list = ['poi','from_poi_to_this_person']
+Accuracy: 0.73650	Precision: 0.02632	Recall: 0.00150	F1: 0.00284	F2: 0.00185
+Total predictions: 8000	True positives:    3	False positives:  111	False negatives: 1997	True negatives: 5889
+
+features_list = ['poi','from_poi_to_this_person', 'bonus', 'restricted_stock']
+Accuracy: 0.23500	Precision: 0.14811	Recall: 0.75550	F1: 0.24766	F2: 0.41506
+Total predictions: 12000	True positives: 1511	False positives: 8691	False negatives:  489	True negatives: 1309
+
+features_list = ['poi','from_poi_to_this_person', 'shared_receipt_with_poi']
+Accuracy: 0.82378	Precision: 0.00339	Recall: 0.00200	F1: 0.00252	F2: 0.00218
+Total predictions: 9000	True positives: 2	False positives: 588	False negatives: 998	True negatives: 7412
+
+features_list = ['poi','bonus', 'total_payments', 'from_poi_to_this_person']
+Accuracy: 0.78564	Precision: 0.08257	Recall: 0.04950	F1: 0.06189	F2: 0.05381
+Total predictions: 14000	True positives: 99	False positives: 1100	False negatives: 1901	True negatives: 10900
+
+features_list = ['poi', 'total_payments']
+Accuracy: 0.76308	Precision: 0.06938	Recall: 0.04350	F1: 0.05347	F2: 0.04701
+Total predictions: 13000	True positives: 87	False positives: 1167	False negatives: 1913	True negatives: 9833
+
+features_list = ['poi','bonus', 'total_payments']
+Accuracy: 0.73877	Precision: 0.10205	Recall: 0.08950	F1: 0.09536	F2: 0.09176
+Total predictions: 13000	True positives: 179	False positives: 1575	False negatives: 1821	True negatives: 9425
